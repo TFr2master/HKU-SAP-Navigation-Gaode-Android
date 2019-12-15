@@ -12,7 +12,7 @@ import com.amap.api.maps.model.LatLng;
 public class GeoUtils {
 
     private static int EARTH_RADIUS = 6371 * 1000;
-    private static boolean CONVERT_LOCATION_FLAG = false;
+    private static boolean CONVERT_LOCATION_FLAG = true;
 
     /**
      * Computes the distance in kilometers between two points on Earth.
