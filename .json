@@ -1,0 +1,22 @@
+[
+  {
+    "0": "STUDY ROOM",
+    "DESCRIPTION": "STUDY ROOM",
+    "1": "EXAM",
+    "DEPT_CODE": "EXAM",
+    "2": "08:00",
+    "START_TIME": "08:00",
+    "3": "23:59",
+    "END_TIME": "23:59"
+  },
+  {
+    "0": "STUDY ROOM",
+    "DESCRIPTION": "STUDY ROOM",
+    "1": "EXAM",
+    "DEPT_CODE": "EXAM",
+    "2": "00:01",
+    "START_TIME": "00:01",
+    "3": "06:00",
+    "END_TIME": "06:00"
+  }
+]

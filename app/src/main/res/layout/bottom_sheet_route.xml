@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_card_bg"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_4"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@color/textColorHint" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_14"
+        android:paddingRight="@dimen/dp_14"
+        android:paddingBottom="@dimen/dp_10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_30"
+                android:text="NAME"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_18"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_building"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_20"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:text="Choose destination"
+                android:textSize="@dimen/dp_14"
+                tools:drawableLeft="@drawable/door" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_20"
+                android:drawableLeft="@drawable/time"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:text="Choose destination"
+                android:textSize="@dimen/dp_14"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/tv_level"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@drawable/button_shape_gray"
+            android:gravity="center"
+            android:text="4F"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:paddingLeft="@dimen/dp_14"
+        android:paddingRight="@dimen/dp_14"
+        android:paddingBottom="@dimen/dp_10">
+
+        <FrameLayout
+            android:id="@+id/btv_events"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_40"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape_stroke">
+
+            <TextView
+                android:id="@+id/tv_events"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/steps"
+                android:gravity="center_vertical"
+                android:drawablePadding="@dimen/dp_5"
+                android:text="Steps"
+                android:textColor="@color/blue" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_directive"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape">
+
+            <TextView
+                android:id="@+id/tv_directive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/walk"
+                android:gravity="center_vertical"
+                android:text="Start"
+                android:textColor="@color/white" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_300">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_events"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/empty"
+            android:drawablePadding="@dimen/dp_20"
+            android:text="No Events"
+            android:textColor="@color/textColorHint"
+            android:textSize="16sp" />
+    </FrameLayout>
+</LinearLayout>

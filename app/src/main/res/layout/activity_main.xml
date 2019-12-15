@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dupd.hku.com.hkusap.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <dupd.hku.com.hkusap.weight.RouteFindingToolbar
+        android:id="@+id/routeFindingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:fitsSystemWindows="true"
+        android:padding="0dp" />
+
+    <dupd.hku.com.hkusap.weight.OptionLevelView
+        android:id="@+id/optionLevelView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
+    <dupd.hku.com.hkusap.weight.NavigationToolbar
+        android:id="@+id/navigationToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:fitsSystemWindows="true"
+        android:padding="0dp" />
+
+    <dupd.hku.com.hkusap.weight.PositioningToolbar
+        android:id="@+id/positioningToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:padding="0dp" />
+
+    <dupd.hku.com.hkusap.weight.BottomSheet
+        android:id="@+id/bottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:clickable="true" />
+
+    <dupd.hku.com.hkusap.weight.BottomSheetRoute
+        android:id="@+id/bottomSheetRoute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:clickable="true" />
+
+    <dupd.hku.com.hkusap.weight.BottomSheetNavigation
+        android:id="@+id/bottomSheetNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:clickable="true" />
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#eeFFFFFF"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_5"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5">
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_25"
+                android:background="@drawable/button_shape_gray"
+                android:text="debug"
+                android:textSize="@dimen/dp_12" />
+
+            <TextView
+                android:id="@+id/tv_6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:singleLine="true"
+                android:text="Math.pow(10,(rssi-mpower)/(10*N))"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape_gray"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:text="Beacon数"
+                android:textSize="@dimen/dp_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape_gray"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:text="Beacon总数"
+                android:textSize="@dimen/dp_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape_gray"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:text="总步数"
+                android:textSize="@dimen/dp_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape_gray"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:text="实时步数"
+                android:textSize="@dimen/dp_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape_gray"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:text="方向角"
+                android:textSize="@dimen/dp_12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_12"
+                tools:text="Beacon数" />
+
+            <TextView
+                android:id="@+id/tv_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_12"
+                tools:text="Beacon总数" />
+
+            <TextView
+                android:id="@+id/tv_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_12"
+                tools:text="步数" />
+
+            <TextView
+                android:id="@+id/tv_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_12"
+                tools:text="步数" />
+
+            <TextView
+                android:id="@+id/tv_5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_25"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_12"
+                tools:text="方向角" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_300"
+            android:fadeScrollbars="false"
+            android:gravity="right"
+            android:paddingBottom="@dimen/dp_5"
+            android:scrollbarFadeDuration="2000"
+            android:scrollbarStyle="insideOverlay"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dp_14" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

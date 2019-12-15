@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#006eff</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#2FCD70</color>
+
+    <color name="white">#ffffff</color>
+    <color name="white_60">#99ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="blue">#036DFF</color>
+    <color name="black">#000000</color>
+    <color name="black_33">#54000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="flatOrange">#e68622</color>
+    <color name="poi_default">#D0D8DA</color>
+    <color name="poi_sightseeing">#A0D299</color>
+    <color name="poi_restaurant">#FEAD32</color>
+    <color name="poi_touristcenter">#ED9DC4</color>
+    <color name="poi_store">#36D1DC</color>
+    <color name="poi_museum">#2980B9</color>
+    <color name="poi_security">#FF416C</color>
+    <color name="poi_medical">#93D8F7</color>
+    <color name="poi_parking">#A1BBE1</color>
+    <color name="poi_room">#A1BBE1</color>
+
+
+    <color name="text_color">#333</color>
+    <color name="text_color2">#666</color>
+    <color name="text_color3">#999</color>
+    <color name="tab_color">#5066a1</color>
+    <color name="btn_color">#036DFF</color>
+    <!--fill 地图图层-->
+    <color name="colorFloor">#33006eff</color>
+    <!--stroke 地图图层-->
+    <color name="colorFloorStroke">#7F006eff</color>
+    <!--fill 导航模式-->
+    <color name="colorNa">#33E84E3C</color>
+    <!--stroke 导航模式-->
+    <color name="colorNaStroke">#7FE84E3C</color>
+    <color name="textColor">#333333</color>
+    <color name="textColorHint">#666666</color>
+    <color name="background">#E5E5E5</color>
+    <color name="aaa">#AAAAAA</color>
+
+    <color name="color">#55006eff</color>
+    <color name="line">#E5E5E5</color>
+
+    <color name="assert_color">#9C27B0</color>
+    <color name="debug_color">#2196F3</color>
+    <color name="error_color">#F44336</color>
+    <color name="info_color">#4CAF50</color>
+    <color name="warn_color">#FFC107</color>
+
+    <color name="systemBlueColor">#006E01</color>
+    <color name="gray">#666666</color>
+</resources>
