@@ -9,11 +9,9 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.orhanobut.logger.Logger;
 
 import org.altbeacon.beacon.Beacon;
@@ -47,10 +45,9 @@ public class CLLocationManager {
     private static final String ALTBEACON_LAYOUT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
     //    private final SensorManager mSensorManager;
     private final BeaconManager mBeaconManager;
-    private final FusedLocationProviderClient mProviderClient;
+    private final AMapLocationClient mLocationClient;
     //    private PublishSubject<Float> mSubject = PublishSubject.create();
     public CLLocationManagerDelegate delegate;
-    private LocationRequest mLocationRequest;
     private Core mCore;
     private Locationer mLocationer;
 
@@ -58,7 +55,7 @@ public class CLLocationManager {
 //        mSensorManager = (SensorManager) HKUApplication.sAPP.getSystemService(Context.SENSOR_SERVICE);
         mCore = new Core(mOnStepUpdateListener);
         mLocationer = new Locationer(mLocationUpdateListener);
-        mProviderClient = LocationServices.getFusedLocationProviderClient(HKUApplication.sAPP);
+        mLocationClient = new AMapLocationClient(HKUApplication.sAPP.getApplicationContext());
 //
 //        mSubject.buffer(1_000, TimeUnit.MILLISECONDS)
 //                .subscribeOn(Schedulers.io())
@@ -151,46 +148,41 @@ public class CLLocationManager {
 
     @SuppressLint("MissingPermission")
     public void startUpdatingLocation() {
-        if (mLocationRequest == null) {
-            mLocationRequest = LocationRequest.create();
-            mLocationRequest.setInterval(5000); //5 seconds
-            mLocationRequest.setFastestInterval(3000); //3 seconds
-            mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationClient.setLocationListener((aMapLocation) -> {
+            if (aMapLocation == null) return;
+            long currentTime = new Date().getTime()/1000;
+            long timeDiff = currentTime - RangingManager.getInstance().refreshedTime;
 
-            mProviderClient.requestLocationUpdates(mLocationRequest, new LocationCallback() {
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-                    super.onLocationResult(locationResult);
-                    if (locationResult == null) return;
-                    long currentTime = new Date().getTime()/1000;
-                    long timeDiff = currentTime - RangingManager.getInstance().refreshedTime;
-
-                    if (RangingManager.getInstance().precisionLevel == 0 && timeDiff < 30) {
+            if (RangingManager.getInstance().precisionLevel == 0 && timeDiff < 30) {
+                return;
+            } else if (RangingManager.getInstance().precisionLevel == 1) {
+                if (timeDiff < 30) {
+                    if (aMapLocation.getAccuracy() > 10) {
                         return;
-                    } else if (RangingManager.getInstance().precisionLevel == 1) {
-                        if (timeDiff < 30) {
-                            if (locationResult.getLastLocation().getAccuracy() > 10) {
-                                return;
-                            }
-                        }
-
-                    } else if (RangingManager.getInstance().precisionLevel == 2) {
-                        if (timeDiff < 30) {
-                            if (locationResult.getLastLocation().getAccuracy() > 30) {
-                                return;
-                            }
-                        }
                     }
-                    if (timeDiff > 30) {
-                        RangingManager.getInstance().refreshedTime = currentTime;
-                        RangingManager.getInstance().precisionLevel++;
-                    }
-                    Location location = locationResult.getLastLocation();
-                    GeoUtils.convertCoordinate(location);
-                    delegate.didUpdateLocations(location);
                 }
-            }, Looper.myLooper());
-        }
+
+            } else if (RangingManager.getInstance().precisionLevel == 2) {
+                if (timeDiff < 30) {
+                    if (aMapLocation.getAccuracy() > 30) {
+                        return;
+                    }
+                }
+            }
+            if (timeDiff > 30) {
+                RangingManager.getInstance().refreshedTime = currentTime;
+                RangingManager.getInstance().precisionLevel++;
+            }
+            Location location = aMapLocation;
+            GeoUtils.convertCoordinate(location);
+            delegate.didUpdateLocations(location);
+        });
+        AMapLocationClientOption locationClientOption = new AMapLocationClientOption();
+        locationClientOption.setInterval(5000);
+        locationClientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.Transport);
+        locationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationClient.setLocationOption(locationClientOption);
+        mLocationClient.startLocation();
 //        mProviderClient.getLastLocation().addOnSuccessListener(location -> delegate.didUpdateLocations(location));
     }
 
