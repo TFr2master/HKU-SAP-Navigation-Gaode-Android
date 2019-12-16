@@ -174,7 +174,6 @@ public class CLLocationManager {
                 RangingManager.getInstance().precisionLevel++;
             }
             Location location = aMapLocation;
-            GeoUtils.convertCoordinate(location);
             delegate.didUpdateLocations(location);
         });
         AMapLocationClientOption locationClientOption = new AMapLocationClientOption();
