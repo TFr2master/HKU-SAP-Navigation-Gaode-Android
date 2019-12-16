@@ -2,6 +2,8 @@ package dupd.hku.com.hkusap.model;
 
 import com.amap.api.maps.model.LatLng;
 
+import dupd.hku.com.hkusap.utils.GeoUtils;
+
 public class IDMatchingModel implements Cloneable{
 
     public boolean inConfidenceRange;
@@ -11,7 +13,7 @@ public class IDMatchingModel implements Cloneable{
 
     public IDMatchingModel(LatLng coordinate, String levelCode, boolean inConfidenceRange, boolean mapMatched) {
         this.inConfidenceRange = inConfidenceRange;
-        this.coordinate = coordinate;
+        this.coordinate = GeoUtils.convertCoordinate(coordinate);
         this.mapMatched = mapMatched;
         this.levelCode = levelCode;
     }

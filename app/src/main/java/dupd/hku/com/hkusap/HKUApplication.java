@@ -86,8 +86,8 @@ public class HKUApplication extends Application implements LifeCycleDelegate {
             LatLng coordinate = GeoUtils.convertCoordinate(new LatLng(beacon.latitude, beacon.longitude));
             plate.latitude = coordinate.latitude;
             plate.longitude = coordinate.longitude;
-            plate.latitude = beacon.latitude;
-            plate.longitude = beacon.longitude;
+            //plate.latitude = beacon.latitude;
+            //plate.longitude = beacon.longitude;
             plate.postalCode = beacon.postal_code;
             plate.init();
             plates.add(plate);
