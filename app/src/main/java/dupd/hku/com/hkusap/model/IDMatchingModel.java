@@ -13,7 +13,9 @@ public class IDMatchingModel implements Cloneable{
 
     public IDMatchingModel(LatLng coordinate, String levelCode, boolean inConfidenceRange, boolean mapMatched) {
         this.inConfidenceRange = inConfidenceRange;
-        this.coordinate = GeoUtils.convertCoordinate(coordinate);
+//        LatLng cv= GeoUtils.convertCoordinate(coordinate);
+//        this.coordinate = GeoUtils.convertCoordinate(coordinate);
+        this.coordinate=coordinate;
         this.mapMatched = mapMatched;
         this.levelCode = levelCode;
     }
