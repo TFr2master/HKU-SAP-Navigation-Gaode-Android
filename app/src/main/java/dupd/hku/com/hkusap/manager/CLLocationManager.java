@@ -150,7 +150,7 @@ public class CLLocationManager {
     public void startUpdatingLocation() {
         mLocationClient.setLocationListener((aMapLocation) -> {
             if (aMapLocation == null) return;
-            long currentTime = new Date().getTime()/1000;
+            long currentTime = new Date().getTime() / 1000;
             long timeDiff = currentTime - RangingManager.getInstance().refreshedTime;
 
             if (RangingManager.getInstance().precisionLevel == 0 && timeDiff < 30) {
@@ -266,7 +266,10 @@ public class CLLocationManager {
         @Override
         public void onStepUpdate(int event) {
             if (event == 0) {
-                float rotation = (float) Core.azimuth;
+                //高德版本
+                float rotation = (float) 360.0 - (float) Core.azimuth;
+                //谷歌版本
+                //float rotation =(float) Core.azimuth;
 
                 if ((rotation > 0 && rotation < 20) && (row > 340 && row < 360)) {
                     Log.d(TAG, "防止显示上多转动");
