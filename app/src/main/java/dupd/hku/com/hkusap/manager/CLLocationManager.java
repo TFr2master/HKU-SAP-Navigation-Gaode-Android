@@ -266,10 +266,7 @@ public class CLLocationManager {
         @Override
         public void onStepUpdate(int event) {
             if (event == 0) {
-                //高德版本
-                float rotation = (float) 360.0 - (float) Core.azimuth;
-                //谷歌版本
-                //float rotation =(float) Core.azimuth;
+                float rotation = (float) Core.azimuth;
 
                 if ((rotation > 0 && rotation < 20) && (row > 340 && row < 360)) {
                     Log.d(TAG, "防止显示上多转动");

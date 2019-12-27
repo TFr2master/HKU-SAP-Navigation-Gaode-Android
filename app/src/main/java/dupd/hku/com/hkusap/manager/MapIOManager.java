@@ -96,7 +96,7 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
     private IDPointModel fromPoint;
     private IDPointModel toPoint;
     private IDRouteCollection routeCollection;
-    public IDRouteCollection allRoute=null;
+    public IDRouteCollection allRoute = null;
     private ViewController mController;
     private Location mLocation;
     public MapManagerMode mode;
@@ -123,10 +123,10 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
     private boolean centerInMap;
     private boolean navigationTrackingEnabled;
     private Beacon nearestBeacon;
-    public int oldZoomLevel=0;
+    public int oldZoomLevel = 0;
     private List<Marker> POIMarker = new ArrayList<>();
-    public static boolean useCheck=true;
-    public boolean showRoute=false;
+    public static boolean useCheck = true;
+    public boolean showRoute = false;
 
     private MapIOManager() {
         mode = MapManagerModePositioning;
@@ -249,7 +249,7 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
                         if (completion != null) completion.run();
                         break;
                     case MapManagerModeNavigation:
-                        navigationTrackingEnabled=false;
+                        navigationTrackingEnabled = false;
                         if (selectedPlate == null) {
                             if (completion != null) completion.run();
                             return;
@@ -373,16 +373,17 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
     }
 
     public void displayAllRoutesForLevel() {
-        if(allRoute==null)
-            allRoute=new IDRouteCollection(IDPathFinderManager.getInstance().routes);
-        List<IDRouteModel> lvRoute=allRoute.findForLevelCode(previewLevel);
-        for(IDRouteModel route: lvRoute) {
+        if (allRoute == null)
+            allRoute = new IDRouteCollection(IDPathFinderManager.getInstance().routes);
+        List<IDRouteModel> lvRoute = allRoute.findForLevelCode(previewLevel);
+        for (IDRouteModel route : lvRoute) {
             enabledLines.add(mMap.addPolyline(new PolylineOptions()
                     .add(route.start.coordinate, route.end.coordinate)
                     .width(mController.getResources().getDimension(R.dimen.dp_5))
                     .color(UIColor.systemBlueColor())));
         }
     }
+
     public void cleanShortestPath() {
         removeNavigationRoutes();
         removeStartingPoint();
@@ -694,7 +695,7 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
     public void centerToMyLocation() {
         if (myLocationModel == null && mLocation == null) return;
 
-        if(previewLevel!=level&&(!"000".equals(level))) {
+        if (previewLevel != level && (!"000".equals(level))) {
             setPreviewLevel(level);
         }
 
@@ -829,11 +830,11 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
 
 
     public void updateMyLocationHeading(float heading) {
-        updatedHeading = heading;
+        updatedHeading = 360 - heading;
 
         if (mode == MapManagerModeNavigation) {
             if (myLocationModel != null) {
-                myLocationMarker.setRotateAngle(heading);
+                myLocationMarker.setRotateAngle(360 - heading);
             }
 
             LatLng coordinate;
@@ -849,7 +850,7 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
         } else {
             if (myLocationModel != null) {
                 //rotate marker icon
-                myLocationMarker.setRotateAngle(heading);
+                myLocationMarker.setRotateAngle(360 - heading);
             }
         }
     }
@@ -867,7 +868,7 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
 
         //inside lift
         if ("000".equals(level)) {
-            this.level=level;
+            this.level = level;
             liftInside = true;
             disableMyLocationMarker();
             for (MapIOManagerObserverableProtocol observer : observerArray) {
@@ -909,7 +910,7 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
         updateFloorPlanWithLevel(previewLevel);
         updateBuildingBoundaryWithLevel(previewLevel);
         updatePOIPointWithLevel(previewLevel);
-        if(showRoute){
+        if (showRoute) {
             removeNavigationRoutes();
             displayAllRoutesForLevel();
         }
@@ -920,30 +921,33 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
         }
     }
 
-    public void updatePOIPointWithLevel(String level){
+    public void updatePOIPointWithLevel(String level) {
         cleanPOIPointBoundary();
         addPOIPointWithLevel(level);
     }
+
     public void cleanPOIPointBoundary() {
         for (Marker poi : POIMarker) {
             poi.remove();
         }
         POIMarker.clear();
     }
-    public void updatePOIPointWithZoom(int zoomlevel){
-        for(int i=0;i<POIMarker.size();i++){
-            if (((POIPoint)POIMarker.get(i).getObject()).mapScale <= zoomlevel) {
+
+    public void updatePOIPointWithZoom(int zoomlevel) {
+        for (int i = 0; i < POIMarker.size(); i++) {
+            if (((POIPoint) POIMarker.get(i).getObject()).mapScale <= zoomlevel) {
                 POIMarker.get(i).setVisible(true);
             } else {
                 POIMarker.get(i).setVisible(false);
             }
         }
     }
+
     public void addPOIPointWithLevel(String level) {
         List<POIPoint> result = DataIOManager.getInstance().POIPointForLevel(level);
 
         for (POIPoint object : result) {
-            oldZoomLevel=2;
+            oldZoomLevel = 2;
             int id = R.drawable.search;
             if (object.poi_type.equals("entrance")) {
                 id = R.drawable.entrance;
@@ -978,26 +982,28 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
             Bitmap bitmapIcon = ((BitmapDrawable) icon).getBitmap();
 
             LatLng MELBOURNE = new LatLng(object.latitude, object.longitude);
-            Marker mark=mMap.addMarker(new MarkerOptions()
+            Marker mark = mMap.addMarker(new MarkerOptions()
                     .icon(BitmapDescriptorFactory.fromBitmap(bitmapIcon))
                     .position(MELBOURNE)
-                    .anchor(0.5f,0.5f)
+                    .anchor(0.5f, 0.5f)
                     .zIndex(0));
             mark.setObject(object);
             POIMarker.add(mark);
 
         }
         int zoomLevel;
-        zoomLevel = GeoUtils.getZoomCode((int)mMap.getCameraPosition().zoom);
+        zoomLevel = GeoUtils.getZoomCode((int) mMap.getCameraPosition().zoom);
         updatePOIPointWithZoom(zoomLevel);
     }
+
     public void updateFloorPlanWithLevel(String level) {
         cleanFloorPlan();
         addFloorPlanWithLevel(level);
     }
-    public void setmLocation(){
-        if(myLocationMarker==null&&useCheck==false){
-            LatLng targetLocation=new LatLng(22.2834981258,114.134145211);
+
+    public void setmLocation() {
+        if (myLocationMarker == null && useCheck == false) {
+            LatLng targetLocation = new LatLng(22.2834981258, 114.134145211);
             DeadReckoningManager.getInstance().processDeadReckoningCoordinate(targetLocation, false);
         }
     }
@@ -1090,9 +1096,9 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
         mLocation = location;
         //float radius = location.getAccuracy();
         //if (PrecisionLevelManager.getInstance().canUpdateLocation(location)) {
-            for (MapIOManagerObserverableProtocol observer : observerArray) {
-                observer.didUpdateLocations(location);
-            }
+        for (MapIOManagerObserverableProtocol observer : observerArray) {
+            observer.didUpdateLocations(location);
+        }
         //}
     }
 
