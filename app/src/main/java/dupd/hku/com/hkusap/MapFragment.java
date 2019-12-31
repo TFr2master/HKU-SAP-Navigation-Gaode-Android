@@ -8,12 +8,18 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.CameraUpdateFactory;
+
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -33,6 +39,22 @@ public class MapFragment extends BaseFragment implements BottomSheetCallback {
     private RxPermissions mRxPermissions;
     private OnMapFragmentListener mOnMapListener;
     private boolean mOnMapReady;
+
+    private float lastBearing = 0;
+    private RotateAnimation rotateAnimation;
+
+    @BindView(R.id.iv_compass)
+    ImageView ivCompass;
+
+
+    //控制指南针转动
+    private void startIvCompass(float bearing) {
+        bearing = 360 - bearing;
+        rotateAnimation = new RotateAnimation(lastBearing, bearing, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setFillAfter(true);
+        ivCompass.startAnimation(rotateAnimation);
+        lastBearing = bearing;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -63,10 +85,29 @@ public class MapFragment extends BaseFragment implements BottomSheetCallback {
         mMap = mMapView.getMap();
         mMap.setOnMapLoadedListener(() -> {
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mMap.getUiSettings().setCompassEnabled(true);
+            mMap.getUiSettings().setCompassEnabled(false);
+            mMap.getUiSettings().setZoomControlsEnabled(false);
             mMap.setOnMapClickListener(latLng -> mOnMapListener.onMapClick(latLng));
-            moveCompass();
+            //moveCompass();
+            mMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    startIvCompass(cameraPosition.bearing);
+                }
+
+                @Override
+                public void onCameraChangeFinish(CameraPosition cameraPosition) {
+
+                }
+            });
             enableMyLocation();
+            ivCompass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CameraUpdateFactory cameraUpdateFactory = new CameraUpdateFactory();
+                    mMap.moveCamera(cameraUpdateFactory.changeBearing(360));
+                }
+            });
         });
         /*
         mMapView.getMapAsync(googleMap -> {
@@ -126,28 +167,27 @@ public class MapFragment extends BaseFragment implements BottomSheetCallback {
     }
 
     public void moveCompass() {
-        mMapView.post(() -> {
-            try {
-                ViewGroup parent = (ViewGroup) mMapView.findViewWithTag("GoogleMapMyLocationButton").getParent();
-                View mapCompass = parent.getChildAt(4);
-                // create layoutParams, giving it our wanted width and height(important, by default the width is "match parent")
-                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(mapCompass.getHeight(), mapCompass.getHeight());
-                // position on top right
-                rlp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
-                rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-
-                rlp.rightMargin = (int) getResources().getDimension(R.dimen.dp_20);
-                rlp.topMargin = AnimatorUtil.getInstance().getToolbar().getHeight() + (int) getResources().getDimension(R.dimen.dp_20);
-
-                mapCompass.setLayoutParams(rlp);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+//        mMapView.post(() -> {
+//            try {
+//                ViewGroup parent = (ViewGroup) mMapView.findViewWithTag("GoogleMapMyLocationButton").getParent();
+//                View mapCompass = parent.getChildAt(4);
+//                // create layoutParams, giving it our wanted width and height(important, by default the width is "match parent")
+//                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(mapCompass.getHeight(), mapCompass.getHeight());
+//                // position on top right
+//                rlp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+//                rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//                rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//                rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+//
+//                rlp.rightMargin = (int) getResources().getDimension(R.dimen.dp_20);
+//                rlp.topMargin = AnimatorUtil.getInstance().getToolbar().getHeight() + (int) getResources().getDimension(R.dimen.dp_20);
+//
+//                mapCompass.setLayoutParams(rlp);
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        });
     }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
