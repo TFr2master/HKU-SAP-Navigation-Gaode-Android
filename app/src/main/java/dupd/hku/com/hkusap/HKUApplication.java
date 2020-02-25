@@ -11,6 +11,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import java.util.ArrayList;
 import java.util.List;
 
+import dupd.hku.com.hkusap.iBeacon.TimedBeaconSimulator;
 import dupd.hku.com.hkusap.manager.BeaconManager;
 import dupd.hku.com.hkusap.manager.DataIOManager;
 import dupd.hku.com.hkusap.manager.POIManager;
@@ -123,6 +124,12 @@ public class HKUApplication extends Application implements LifeCycleDelegate {
 
         AppLifecycleHandler.getInstance().registerLifecycleHandler(this);
         AppLifecycleHandler.getInstance().registerLifeCycleDelegate(this);
+
+        org.altbeacon.beacon.BeaconManager.setBeaconSimulator(new TimedBeaconSimulator());
+        //模拟10s依次暴露一个Beaocon的模拟信号
+        ((TimedBeaconSimulator) org.altbeacon.beacon.BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
+        //模拟一次暴露多个Beaocon的模拟信号
+//        ((TimedBeaconSimulator) org.altbeacon.beacon.BeaconManager.getBeaconSimulator()).createBasicSimulatedBeacons();
 
         YogaUncaughtExceptionHandler.getInstance().setDefaultUncaughtExceptionHandler();
     }
