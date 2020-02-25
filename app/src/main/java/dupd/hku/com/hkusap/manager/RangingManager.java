@@ -121,8 +121,8 @@ public class RangingManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         float N = sharedPreferences.getFloat("Estimote_N", (float)2.0);
         String S_N=format.format(N);
-        /*
-        if (distance > 10) {
+
+        if (distance > 8) {
             String text="";
             if (distance!=Double.MAX_VALUE){
                 String mpower = format.format(DataIOManager.getInstance().sapdb.plate.get(0).mPower);
@@ -133,17 +133,17 @@ public class RangingManager {
                         +"最近Beacon rssi: "+rssi
                         +"当前公式: "+function
                         +"最近Beacon:" + nearest.toString()
-                        + "大于10,移除\n";
+                        + "大于8,移除\n";
             }
             else{
                 text="最近Beacon距离:" + format.format(distance)
                         +"找不到对应plate，最近Beacon:" + nearest.toString()
-                        + "大于10,移除\n";
+                        + "大于8,移除\n";
             }
             DataIOManager.getInstance().mSubject.onNext(text);
             nearestBeacon = null;
             return;
-        }*/
+        }
 
         if (nearestBeacon == null || !nearestBeacon.getId1().toUuid().equals(nearest.getId1().toUuid())) {
             distance = distanceToBeacon(nearest);
