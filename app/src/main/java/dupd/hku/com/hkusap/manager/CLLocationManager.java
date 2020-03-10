@@ -180,6 +180,7 @@ public class CLLocationManager {
         locationClientOption.setInterval(5000);
         locationClientOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.Transport);
         locationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        locationClientOption.setMockEnable(true);
         mLocationClient.setLocationOption(locationClientOption);
         mLocationClient.startLocation();
 //        mProviderClient.getLastLocation().addOnSuccessListener(location -> delegate.didUpdateLocations(location));

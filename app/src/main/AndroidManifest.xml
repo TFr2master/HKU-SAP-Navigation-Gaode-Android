@@ -89,10 +89,13 @@
             android:name="io.fabric.ApiKey"
             android:value="2858cff22dac84d0015b83d8e103c7579a65011f"
             />
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="aaa69ec88e4f4424b985dba437a05164">//开发者申请的key
 
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="aaa69ec88e4f4424b985dba437a05164">
-            //gaode key
         </meta-data>
+
+<!--        <meta-data android:name="com.amap.api.v2.apikey" android:value="aaa69ec88e4f4424b985dba437a05164">-->
+<!--            //gaode key-->
+<!--        </meta-data>-->
 
 
     </application>
