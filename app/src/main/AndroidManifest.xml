@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!--
      The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -58,9 +59,9 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="@string/google_maps_key" />-->
 
         <activity android:name=".ChooseDestinationActivity"
             android:screenOrientation="portrait"
@@ -82,18 +83,18 @@
                 android:name="longScanForcingEnabled"
                 android:value="true" />
         </service>
+        <service android:name="com.amap.api.location.APSService"></service>
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="2858cff22dac84d0015b83d8e103c7579a65011f"
             />
-        <!--
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="key">
+
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="aaa69ec88e4f4424b985dba437a05164">
             //gaode key
         </meta-data>
-        -->
+
 
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

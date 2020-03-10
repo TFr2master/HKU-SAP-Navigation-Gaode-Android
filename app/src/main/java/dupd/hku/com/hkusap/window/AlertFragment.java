@@ -86,6 +86,7 @@ public class AlertFragment extends BottomSheetDialogFragment {
             locationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             locationClientOption.setOnceLocation(true);
             locationClientOption.setOnceLocationLatest(true);
+            locationClientOption.setMockEnable(true);
             locationClient.setLocationOption(locationClientOption);
             locationClient.startLocation();
         }
