@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.altbeacon.beacon.Beacon;
@@ -26,6 +27,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dupd.hku.com.hkusap.BeaconrecordDialog;
+import dupd.hku.com.hkusap.MainActivity;
 import dupd.hku.com.hkusap.ParameterDialog;
 import dupd.hku.com.hkusap.R;
 import dupd.hku.com.hkusap.base.BaseAdapter;
@@ -38,7 +41,9 @@ import dupd.hku.com.hkusap.manager.ShakeDetector;
 import dupd.hku.com.hkusap.model.IDMatchingModel;
 import dupd.hku.com.hkusap.model.IDRouteModel;
 import dupd.hku.com.hkusap.model.SPSelectedIndex;
+import dupd.hku.com.hkusap.utils.FileUtils;
 import dupd.hku.com.hkusap.utils.UIColor;
+import dupd.hku.com.hkusap.utils.Utils;
 
 public class OptionLevelView extends FrameLayout implements BottomSheetCallback {
 
@@ -51,6 +56,8 @@ public class OptionLevelView extends FrameLayout implements BottomSheetCallback 
     private CardView mCvMail;
     private CardView mCvLocation;
     private LevelAdapter mAdapter;
+    public ImageView mRecord;
+    public ImageView mFlag;
     private int selectedIndex;
     private List<SPSelectedIndex> indicatorIndexs;
     private String hightlightLevel;
@@ -78,6 +85,8 @@ public class OptionLevelView extends FrameLayout implements BottomSheetCallback 
         mTvMail = findViewById(R.id.tv_mail);
         mCvMail = findViewById(R.id.cv_mail);
         mCvLocation = findViewById(R.id.cv_location);
+        mRecord = findViewById(R.id.iv_record);
+        mFlag = findViewById(R.id.iv_flag);
 
         mAdapter = new LevelAdapter();
         mRvFloor.setAdapter(mAdapter);
@@ -97,6 +106,33 @@ public class OptionLevelView extends FrameLayout implements BottomSheetCallback 
         mTvParameter.setOnClickListener(v -> {
             final ParameterDialog parameterDialog = new ParameterDialog(context);
             parameterDialog.show();
+        });
+        mRecord.setOnClickListener(v -> {
+            if(!MapIOManager.getInstance().startedrecord){
+                BeaconrecordDialog beaconrecordDialog = new BeaconrecordDialog(MainActivity.Maa);
+                beaconrecordDialog.setCanceledOnTouchOutside(false);
+                beaconrecordDialog.show();
+            }else {
+                MapIOManager.getInstance().startedrecord = false;
+                setRecordImage();
+                //关闭记录
+                MainActivity.Maa.mtimer.cancel();
+                MainActivity.Maa.mtimer = null;
+                MainActivity.Maa.timerTask.cancel();
+                MainActivity.Maa.timerTask = null;
+                //写入文档
+                FileUtils.writeTxtToFile(MainActivity.Maa.recording,"/sdcard/iBeaconsRecord/",MainActivity.Maa.recordingFilename);
+            }
+        });
+        mFlag.setOnClickListener(v -> {
+            if(!MapIOManager.getInstance().isflag){
+                MapIOManager.getInstance().isflag = true;
+                setFlagImage();
+            }else {
+                MapIOManager.getInstance().isflag = false;
+                setFlagImage();
+            }
+
         });
         mTvMail.setOnClickListener(v -> {
             try {
@@ -127,6 +163,20 @@ public class OptionLevelView extends FrameLayout implements BottomSheetCallback 
         sensorHelper.start();
     }
 
+    public void setRecordImage(){
+        if(MapIOManager.getInstance().startedrecord){
+            mRecord.setImageResource(Utils.getResourcesDrawable("stop"));
+        }else {
+            mRecord.setImageResource(Utils.getResourcesDrawable("start"));
+        }
+    }
+    public void setFlagImage(){
+        if(MapIOManager.getInstance().isflag){
+            mFlag.setImageResource(Utils.getResourcesDrawable("flag_ok"));
+        }else {
+            mFlag.setImageResource(Utils.getResourcesDrawable("flag_no"));
+        }
+    }
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
         mAdapter.notifyDataSetChanged();

@@ -42,6 +42,8 @@ public class RangingManager {
     private DecimalFormat format = new DecimalFormat("0.00");
     public long refreshedTime;
     public int precisionLevel;
+    public List<Beacon> recordbeacons= new ArrayList<>();
+    public String record = "";
 
     private RangingManager() {
         mode = RangingIndoorMode;
@@ -71,9 +73,11 @@ public class RangingManager {
             //rangingCache.removeAll(beacons);
             rangingCache.clear();
             List<Beacon> filteredBeacons = new ArrayList<Beacon>();
+            recordbeacons = new ArrayList<>();
             for(Beacon beacon : beacons) {
                 if(beacon.getId2().toString().equals("7275")) {
                     filteredBeacons.add(beacon);
+                    recordbeacons.add(beacon);
                 }
             }
             rangingCache.put(region.getUniqueId(), filteredBeacons);//hb from 59
@@ -84,6 +88,43 @@ public class RangingManager {
         } else {
             rangingCache.clear();
         }
+    }
+
+    public String Recordibeacons(String uuid,String dis){
+        String beaconlistinfo = "";
+        if(recordbeacons.size()!=0){
+            if(!uuid.equals("")){
+                for (Beacon beacon:recordbeacons){
+                    if(beacon.getId1().toString().equals(uuid)){
+                        beaconlistinfo = getBeaconinfo(beacon);
+                    }
+                }
+            }else {
+                for(int i=0;i<recordbeacons.size();i++){
+                    if(i==0){
+                        beaconlistinfo = getBeaconinfo(recordbeacons.get(i));
+                    }else {
+                        beaconlistinfo = beaconlistinfo + ","+ getBeaconinfo(recordbeacons.get(i));
+                    }
+                }
+            }
+        }
+        beaconlistinfo = beaconlistinfo + "/" + dis;
+        //一次扫描只用一次
+        recordbeacons = new ArrayList<>();
+        return beaconlistinfo;
+    }
+
+    public String getBeaconinfo(Beacon beacon){
+        String info="";
+        if(beacon != null){
+            String uuid = beacon.getId1().toString();
+            String RSSI = String.valueOf(beacon.getRssi());
+            String major = beacon.getId2().toString();
+            String minor = beacon.getId3().toString();
+            info = uuid+"/"+major+"/"+minor+"/"+RSSI;
+        }
+        return info;
     }
 
     public void prepareNotification() {
@@ -107,14 +148,14 @@ public class RangingManager {
         }
         double distance = distanceToBeacon(nearest);
 
-        int rssiSum = 0;
-        for (Beacon beacon: cache) {
-            rssiSum += beacon.getRssi();
-        }
-        int aveRssi = rssiSum/cache.size();
-        for (Beacon beacon: cache) {
-            beacon.setRssi(aveRssi);
-        }
+//        int rssiSum = 0;
+//        for (Beacon beacon: cache) {
+//            rssiSum += beacon.getRssi();
+//        }
+//        int aveRssi = rssiSum/cache.size();
+//        for (Beacon beacon: cache) {
+//            beacon.setRssi(aveRssi);
+//        }
 //
 //        Logger.d("最近Beacon:" + nearest.getBluetoothName() + " 距离:" + distance + "\n");
         Context context = HKUApplication.sAPP.getApplicationContext();

@@ -93,6 +93,8 @@ public class MapIOManager implements RangingManagerProtocol, DeadReckoningProtoc
     private static MapIOManager INSTANCE;
     private final CLLocationManager locationManager;
     public AMap mMap;
+    public boolean startedrecord = false;
+    public boolean isflag = false;
     private IDPointModel fromPoint;
     private IDPointModel toPoint;
     private IDRouteCollection routeCollection;
