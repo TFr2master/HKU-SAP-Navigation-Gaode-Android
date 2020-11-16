@@ -23,13 +23,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.MapFragment;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -127,12 +131,35 @@ public class MainActivity extends BaseActivity implements ViewController, OnMapF
 
     private MapFragment mMapFragment;
     private AlertDialog mDialog;
+    public static MainActivity Maa;
+    public String recording="";
+    public TimerTask timerTask;
+    public Timer mtimer;
+    public String recordingFilename;
+    public String uuid_only;
+    public String distance;
 
+    public void startrecord(){
+        mtimer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Date date = new Date();
+                recording = recording
+                        + String.valueOf(date.getTime()/1000) + "::"
+                        + RangingManager.getInstance().Recordibeacons(uuid_only , distance)
+                        +(MapIOManager.getInstance().isflag ? "/1" : "/0" )
+                        +"\n";
+            }
+        };
+        mtimer.schedule(timerTask,0,1000);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Maa = this;
         MainUtils.setStatusBar(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
